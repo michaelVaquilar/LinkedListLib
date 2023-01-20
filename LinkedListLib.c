@@ -3,9 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-
-
-bool initialized = false;
+bool initialized = false; //tells us if the user has created a list or not yet.
 
 /// Initializes our linked list so we have a memory location for it.
 /// Using calloc so that the memory is already set to 0 instead of empty.
@@ -41,12 +39,14 @@ void Add(LIST *list, void *value) {
 /// by freeing the allocated memory.
 /// \param list, list to be destroyed
 void DestroyList(LIST *list){
+    if(!initialized){ return; }
     free(list);
 }
 
 /// Prints list to console line by line
 /// \param list - pointer to the list.
 void DumpList(LIST *list){
+    if(list->count <= 0){ return; }
     NODE *curr = list->head;
     while(curr != NULL){
         printf("%d\n", *(curr->value));
@@ -58,13 +58,14 @@ void DumpList(LIST *list){
 /// \param value, the value to look for.
 /// \return int, the index of the value.
 int IndexOf(LIST *list, void *value){
+    if(list->count <= 0) { return -1;}
     NODE *curr = list->head;
     int counter = 1;
     while(curr->value != value && curr != NULL){
         *curr = *curr->next;
         counter++;
     }
-    if(curr == NULL) {
+    if(curr == NULL) { //In this case the value is not in the linkedlist.
         return -1;
     }
     return counter;
@@ -80,12 +81,9 @@ bool InsertNodeBeforeTarget(LIST *list, void *TargetValue, void *newValue){
     if(indexOfTarget == -1){
         return false;
     }
-    NODE *curr = list->head;
+    NODE *curr = WalkToNode(list, indexOfTarget - 1);
     NODE *temp = calloc(1, sizeof(NODE));
     temp->value = newValue;
-    for(int i = 0; i < indexOfTarget - 1; i++){
-        *curr = *curr->next;
-    }
     temp->next = curr;
     *curr = *temp;
     list->count++;
@@ -102,16 +100,42 @@ bool InsertNodeAfterTarget(LIST *list, void *TargetValue, void *newValue){
     if(indexOfTarget == -1){
         return false;
     }
-    NODE *curr = list->head;
+    NODE *curr = WalkToNode(list, indexOfTarget);
     NODE *temp = calloc(1, sizeof(NODE));
     temp->value = newValue;
-    for(int i = 0; i < indexOfTarget; i++){
-        *curr = *curr->next;
-    }
     temp->next = curr;
     *curr = *temp;
     list->count++;
     return true;
 }
+
+/// Unlinks a node that has a specific value.
+/// \param list, the list to remove the node from.
+/// \param value, the value to remove.
+/// \return true if the node was successfully removed, false if the target value is not in the existing list.
+bool UnlinkNodeByValue(LIST *list, void *value){
+    int indexOfTarget = IndexOf(list, value);
+    if(indexOfTarget == -1){
+        return false;
+    }
+    NODE *curr = WalkToNode(list, indexOfTarget - 1);
+    NODE *temp = calloc(1, sizeof(NODE));
+    *temp = *curr->next;
+    *curr = *temp;
+    return true;
+}
+
+/// Walks the linkedlist that it is given to a specific location.
+/// \param list, the list to walk.
+/// \param location, the location to walk to.
+/// \return a pointer to the node that was walked to.
+NODE *WalkToNode(LIST *list, int location){
+    NODE *curr = list->head;
+    for(int i = 0; i < location - 1; i++){
+        *curr = *curr->next;
+    }
+    return curr;
+}
+
 
 

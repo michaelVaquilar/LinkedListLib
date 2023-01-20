@@ -31,4 +31,6 @@ bool InsertNodeBeforeTarget(LIST *list, void *TargetValue, void *newValue);
 
 bool InsertNodeAfterTarget(LIST *list, void *TargetValue, void *newValue);
 
+NODE *WalkToNode(LIST *list, int location);
+
 #endif //LINKEDLIST_LINKEDLISTLIB_H
