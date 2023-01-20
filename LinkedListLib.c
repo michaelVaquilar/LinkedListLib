@@ -1,60 +1,43 @@
 #include "LinkedListLib.h"
-#define NULL ((void*)0)
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
-typedef struct Node{
-    void **value;
-    int size;
-    struct Node *next;
-    struct Node *previous;
-} NODE;
 
-NODE *head = NULL;
-NODE *tail = NULL;
-int count = 0;
+
 bool initialized = false;
 
-
-/// Initializes the creation of the linked list.
-/// \param value, the first value being added.
-void Init(void *value){
-    NODE *pList = (NODE*)malloc(sizeof(NODE));
-
-    pList->value = value;
-    pList->next = NULL;
-    pList->previous = NULL;
-
-    head = pList;
-    tail = pList;
+/// Initializes our linked list so we have a memory location for it.
+/// Using calloc so that the memory is already set to 0 instead of empty.
+/// \return memory location
+LIST *Init(){
     initialized = true;
-    count++;
+    return calloc(1, sizeof(LIST));
 }
 
 /// Adds a value to the end of the linked list.
-/// \param pList, pointer to the current list
 /// \param value, value to be added
-/// \return a pointer to the list that was dynamically allocated.
-void *Add(void *value){
-    if(!initialized){
-        printf("ERROR! Must initialize linked list by calling Init(void *value)");
-        exit(0);
-    }
-    NODE *pList = (NODE*)malloc(sizeof(NODE));
-
+/// \return none
+void Add(LIST *list, void *value) {
+    NODE *pList = calloc(1, sizeof(LIST));
     pList->value = value;
-    pList->previous = tail;
-    pList->next = NULL;
-    pList->previous->next = pList;
-    tail = pList;
+    if(!initialized){
+        return;
+    }
+    else if(list->count <= 0) {
+        list->head = pList;
+        list->tail = pList;
+    }
+    else{
+        list->tail->next = pList;
+        pList->previous = list->tail;
+        list->tail = pList;
+    }
 }
+
 
 ///Destroys the linked list by setting head and tail = null;
 void DestroyList(){
-    free(head); //find a way to free the originally allocated memory.
-    free(tail);
-    head = tail = NULL;
-    count = 0;
 }
 
 void hello(void) {

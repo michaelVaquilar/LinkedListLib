@@ -4,12 +4,13 @@
 int main() {
     int i = 10;
     int x = 20;
-    Init(&i);
-    Add(&x);
-    void *value = *(tail->value);
-    printf("%d", value);
-    DestroyList();
-    void *value2 = *(tail->value);
-    printf("%d", value2);
+    int y = 30;
+    LIST *list = Init();
+
+    Add(list, &i);
+    Add(list, &x);
+    Add(list, &y);
+    void *test = *(list->tail->value);
+    printf("%d", test);
     return 0;
 }

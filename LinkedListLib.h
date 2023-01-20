@@ -2,12 +2,22 @@
 #ifndef LINKEDLIST_LINKEDLISTLIB_H
 #define LINKEDLIST_LINKEDLISTLIB_H
 
-struct Node;
+typedef struct Node{
+    void **value;
+    struct Node *next;
+    struct Node *previous;
+} NODE;
+
+typedef struct LList{
+    NODE* head;
+    NODE* tail;
+    int count;
+} LIST;
 void hello(void);
 
-void Init(void *value);
+LIST *Init();
 
-void *Add(void *value);
+void Add(LIST *list, void *value);
 
 void DestroyList();
 
