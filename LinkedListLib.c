@@ -28,8 +28,7 @@ void Add(LIST *list, void *value) {
     }
     else {
         list->tail->next = pList;
-        pList->previous = list->tail;
-        list->tail = pList;
+        list->tail = list->tail->next;
     }
     list->count++;
 }
@@ -39,7 +38,7 @@ void Add(LIST *list, void *value) {
 /// \param index, index to get value at.
 /// \return the value at the index.
 void *Get(LIST *list, int index){
-    NODE *curr = WalkToNode(list, index - 1);
+    NODE *curr = WalkToNode(list, index);
     return curr->value;
 }
 
@@ -71,14 +70,13 @@ int IndexOf(LIST *list, void *value){
     if(list->count <= 0) { return -1;}
     NODE *curr  = list->head;
     int counter = 1;
-    while(curr->value != value && curr != NULL){
+    while(curr != NULL){
+        if(curr->value == value){ return counter; }
+        if(curr->next == NULL) { return -1; }
         *curr = *curr->next;
         counter++;
     }
-    if(curr == NULL) { //In this case the value is not in the linkedlist.
-        return -1;
-    }
-    return counter;
+    return -1;
 }
 
 /// Inserts a node (aka value) before the target value the user is looking for.
@@ -141,7 +139,7 @@ bool UnlinkNodeByValue(LIST *list, void *value){
 /// \return a pointer to the node that was walked to.
 NODE *WalkToNode(LIST *list, int location){
     NODE *curr  = list->head;
-    for(int i = 0; i < location - 1; i++){
+    for(int i = 0; i < location; i++){
         *curr = *curr->next;
     }
     return curr;
