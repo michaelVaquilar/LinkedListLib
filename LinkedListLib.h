@@ -19,7 +19,7 @@ LIST *Init();
 
 void Add(LIST *list, void *value);
 
-void DestroyList();
+void DestroyList(LIST *list);
 
 
 #endif //LINKEDLIST_LINKEDLISTLIB_H

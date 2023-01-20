@@ -28,7 +28,7 @@ void Add(LIST *list, void *value) {
         list->head = pList;
         list->tail = pList;
     }
-    else{
+    else {
         list->tail->next = pList;
         pList->previous = list->tail;
         list->tail = pList;
@@ -37,7 +37,8 @@ void Add(LIST *list, void *value) {
 
 
 ///Destroys the linked list by setting head and tail = null;
-void DestroyList(){
+void DestroyList(LIST *list){
+    free(list);
 }
 
 void hello(void) {
