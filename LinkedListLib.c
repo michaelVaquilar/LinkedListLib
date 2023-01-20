@@ -51,7 +51,13 @@ void DumpList(LIST *list){
         *curr = *curr->next;
     }
 }
-
-void hello(void) {
-    printf("Hello, World!\n");
+int IndexOf(LIST *list, void *value){
+    NODE *curr = list->head;
+    int counter = 1;
+    while(curr->value != value){
+        *curr = *curr->next;
+        counter++;
+    }
+    return counter;
 }
+

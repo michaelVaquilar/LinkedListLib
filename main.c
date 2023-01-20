@@ -10,6 +10,8 @@ int main() {
     Add(list, &i);
     Add(list, &x);
     Add(list, &y);
-    DumpList(list);
+
+    int b = IndexOf(list, &x);
+    printf("%i", b);
     return 0;
 }

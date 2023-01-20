@@ -13,7 +13,7 @@ typedef struct LList{
     NODE* tail;
     int count;
 } LIST;
-void hello(void);
+
 
 LIST *Init();
 
