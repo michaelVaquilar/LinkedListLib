@@ -10,10 +10,6 @@ int main() {
     Add(list, &i);
     Add(list, &x);
     Add(list, &y);
-    void *test = *(list->tail->value);
-    printf("%d\n", test);
-    DestroyList(list);
-    test = *(list->tail->value);
-    printf("%d", test);
+    DumpList(list);
     return 0;
 }
