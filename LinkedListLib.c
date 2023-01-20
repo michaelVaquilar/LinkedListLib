@@ -34,6 +34,15 @@ void Add(LIST *list, void *value) {
     list->count++;
 }
 
+/// Gets the value at the specific index.
+/// \param list, list to get value from.
+/// \param index, index to get value at.
+/// \return the value at the index.
+void *Get(LIST *list, int index){
+    NODE *curr = WalkToNode(list, index - 1);
+    return curr->value;
+}
+
 
 /// Destroys the list aka get's rid of the memory location
 /// by freeing the allocated memory.
@@ -50,6 +59,7 @@ void DumpList(LIST *list){
     NODE *curr = list->head;
     while(curr != NULL){
         printf("%d\n", *(curr->value));
+        if(curr->next == NULL){ break; }
         *curr = *curr->next;
     }
 }
@@ -59,7 +69,7 @@ void DumpList(LIST *list){
 /// \return int, the index of the value.
 int IndexOf(LIST *list, void *value){
     if(list->count <= 0) { return -1;}
-    NODE *curr = list->head;
+    NODE *curr  = list->head;
     int counter = 1;
     while(curr->value != value && curr != NULL){
         *curr = *curr->next;
@@ -81,7 +91,7 @@ bool InsertNodeBeforeTarget(LIST *list, void *TargetValue, void *newValue){
     if(indexOfTarget == -1){
         return false;
     }
-    NODE *curr = WalkToNode(list, indexOfTarget - 1);
+    NODE *curr  = WalkToNode(list, indexOfTarget - 1);
     NODE *temp = calloc(1, sizeof(NODE));
     temp->value = newValue;
     temp->next = curr;
@@ -100,7 +110,7 @@ bool InsertNodeAfterTarget(LIST *list, void *TargetValue, void *newValue){
     if(indexOfTarget == -1){
         return false;
     }
-    NODE *curr = WalkToNode(list, indexOfTarget);
+    NODE *curr  = WalkToNode(list, indexOfTarget - 1);
     NODE *temp = calloc(1, sizeof(NODE));
     temp->value = newValue;
     temp->next = curr;
@@ -118,7 +128,7 @@ bool UnlinkNodeByValue(LIST *list, void *value){
     if(indexOfTarget == -1){
         return false;
     }
-    NODE *curr = WalkToNode(list, indexOfTarget - 1);
+    NODE *curr  = WalkToNode(list, indexOfTarget - 1);
     NODE *temp = calloc(1, sizeof(NODE));
     *temp = *curr->next;
     *curr = *temp;
@@ -130,7 +140,7 @@ bool UnlinkNodeByValue(LIST *list, void *value){
 /// \param location, the location to walk to.
 /// \return a pointer to the node that was walked to.
 NODE *WalkToNode(LIST *list, int location){
-    NODE *curr = list->head;
+    NODE *curr  = list->head;
     for(int i = 0; i < location - 1; i++){
         *curr = *curr->next;
     }

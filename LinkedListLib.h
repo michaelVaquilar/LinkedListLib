@@ -21,6 +21,8 @@ LIST *Init();
 
 void Add(LIST *list, void *value);
 
+void *Get(LIST *list, int index);
+
 void DestroyList(LIST *list);
 
 void DumpList(LIST *list);
