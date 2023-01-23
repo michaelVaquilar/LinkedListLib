@@ -1,0 +1,8 @@
+//
+// Created by trish on 1/23/2023.
+//
+
+#ifndef LINKEDLIST_COMPARABLE_H
+#define LINKEDLIST_COMPARABLE_H
+
+#endif //LINKEDLIST_COMPARABLE_H
