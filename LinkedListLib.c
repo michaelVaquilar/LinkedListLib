@@ -145,5 +145,71 @@ NODE *WalkToNode(LIST *list, int location){
     return curr;
 }
 
+/// Finds the middle of the linked list
+/// \param start, the beginning node of the list
+/// \return the middle node
+NODE *findMid(NODE *start){
+    NODE *fastTemp = start->next;
+    NODE *slowTemp = start;
+
+    while(fastTemp != NULL){
+        fastTemp = fastTemp->next;
+
+        if(fastTemp != NULL) {
+            fastTemp = fastTemp->next;
+            slowTemp = slowTemp->next;
+        }
+    }
+    return slowTemp;
+}
+
+/// Sorts the list, took this code from my old C# linkedlist and converted it.
+/// \param list, our linked list
+/// \param leftCursor, left cursor
+/// \param rightCursor, right cursor
+/// \return
+NODE *Sort(LIST *list, NODE *leftCursor, NODE *rightCursor){
+    NODE *temp;
+
+    if(leftCursor == NULL)
+        return rightCursor;
+    if(rightCursor == NULL)
+        return leftCursor;
+
+    if(leftCursor->value < rightCursor->value){
+        temp = leftCursor;
+        temp->next = Sort((leftCursor->next, rightCursor));
+        list->tail = temp->next;
+    }
+    else{
+        temp = rightCursor;
+        temp->next = Sort(list, leftCursor, rightCursor->next);
+        list->tail = temp->next;
+    }
+    return temp;
+}
+
+NODE *MergeSort(LIST *list, NODE *start){
+    if(start == NULL || start->next == NULL)
+        return start;
+
+    NODE *endOf1st = findMid(start);
+    NODE *begOf2nd = endOf1st->next;
+    endOf1st->next = NULL;
+
+    NODE *LHS = start;
+    NODE *RHS = begOf2nd;
+
+    LHS = MergeSort(list,LHS);
+    RHS = MergeSort(list,RHS);
+
+    NODE *sorted = Sort(list,LHS, RHS);
+
+    list->head = sorted;
+
+    return sorted;
+
+}
+
 
 

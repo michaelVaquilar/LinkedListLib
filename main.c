@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "LinkedListLib.c"
 #include <string.h>
+#include "Comparable/Comparable.h"
 #include <assert.h>
 
 
@@ -8,10 +9,8 @@
 /// \param expected, the expected output
 /// \param actual, the actual output
 /// \param testName, the name of the test
-void Test(void *expected, void *actual, const char* testName){
-
-    int ret = memcmp(expected, actual, sizeof(NODE));
-    if(ret == 0){
+void Test(int expected, int actual, const char* testName){
+    if(expected == actual){
         printf("%s : PASSED\n", testName);
     }else {
         printf("%s : FAILED expected: %d actual: %d\n", testName, expected, actual);
@@ -26,8 +25,7 @@ void TestAddOne(){
     LIST *list = Init();
     Add(list, &i);
     void *result = Get(list, 0);
-    void *p = &i;
-    Test(p, result, "Add One Value");
+    Test(*p, *result, "Add One Value");
     DestroyList(list);
 }
 
@@ -42,7 +40,7 @@ void TestMultipleValue(){
     Add(list, &y);
     Add(list,&z);
     int *result = Get(list, 2);
-    Test(&y, &result, "Add Multiple Values");
+    Test(y, *result, "Add Multiple Values");
     DestroyList(list);
 }
 
@@ -59,7 +57,7 @@ void TestIndexOf(){
     int three = 3;
     //[10,23,-24,34]
     int result = IndexOf(list, &y);
-    Test(&three, &result, "IndexOf Included int"); //Index of returns the location from which it was added,
+    Test(three, result, "IndexOf Included int"); //Index of returns the location from which it was added,
     //not index of it in an array.
 }
 
@@ -76,7 +74,7 @@ void TestIndexOfFail(){ //This should return -1
     //[10,23,-24,34]
     int result = IndexOf(list, &z);
     int expected = -1;
-    Test(&expected, &result, "IndexOf Fail int"); //Index of returns the location from which it was added,
+    Test(expected, result, "IndexOf Fail int"); //Index of returns the location from which it was added,
     //not index of it in an array.
 }
 
