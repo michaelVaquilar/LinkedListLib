@@ -2,13 +2,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 bool initialized = false; //tells us if the user has created a list or not yet.
+int sizeOfData;
 
 /// Initializes our linked list so we have a memory location for it.
 /// Using calloc so that the memory is already set to 0 instead of empty.
+/// \param size, size of the data being stored. This is in bytes.
 /// \return memory location that we will have access too.
-LIST *Init(){
+LIST *Init(int size){
+    sizeOfData = size;
     initialized = true;
     return calloc(1, sizeof(LIST));
 }
@@ -176,9 +180,9 @@ NODE *Sort(LIST *list, NODE *leftCursor, NODE *rightCursor){
     if(rightCursor == NULL)
         return leftCursor;
 
-    if(leftCursor->value < rightCursor->value){
+    if(compareTo(*leftCursor->value, *rightCursor->value, sizeOfData) < 0){
         temp = leftCursor;
-        temp->next = Sort((leftCursor->next, rightCursor));
+        temp->next = Sort(list, leftCursor->next, rightCursor);
         list->tail = temp->next;
     }
     else{
@@ -211,5 +215,13 @@ NODE *MergeSort(LIST *list, NODE *start){
 
 }
 
+/// Custom compare method that uses memcmp.
+/// \param valOne, first value to compare.
+/// \param valTwo, second value to compare too.
+/// \param size, size of the void pointer. AKA you must know the data type.
+/// \return 1 if valOne is greater, 0 if equal, -1 if valTwo is greater
+int compareTo(void *valOne, void *valTwo, int size){
+    return memcmp(valOne,valTwo,size);
+}
 
 

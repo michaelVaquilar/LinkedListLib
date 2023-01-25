@@ -14,6 +14,7 @@ typedef struct LList{
     NODE* head;
     NODE* tail;
     int count;
+    int sizeOfData;
 } LIST;
 
 
@@ -34,5 +35,7 @@ bool InsertNodeBeforeTarget(LIST *list, void *TargetValue, void *newValue);
 bool InsertNodeAfterTarget(LIST *list, void *TargetValue, void *newValue);
 
 NODE *WalkToNode(LIST *list, int location);
+
+int compareTo(void *valOne, void *valTwo, int size);
 
 #endif //LINKEDLIST_LINKEDLISTLIB_H

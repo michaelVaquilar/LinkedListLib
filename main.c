@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "LinkedListLib.c"
 #include <string.h>
-#include "Comparable/Comparable.h"
 #include <assert.h>
 
 
@@ -9,8 +8,8 @@
 /// \param expected, the expected output
 /// \param actual, the actual output
 /// \param testName, the name of the test
-void Test(int expected, int actual, const char* testName){
-    if(expected == actual){
+void Test(void *expected, void *actual, const char* testName){
+    if(compareTo(expected, actual, sizeof(int)) == 0){
         printf("%s : PASSED\n", testName);
     }else {
         printf("%s : FAILED expected: %d actual: %d\n", testName, expected, actual);
@@ -22,26 +21,28 @@ void Test(int expected, int actual, const char* testName){
 
 void TestAddOne(){
     int i = 10;
-    LIST *list = Init();
+    void *p = &i;
+    LIST *list = Init(sizeof(int));
     Add(list, &i);
     void *result = Get(list, 0);
-    Test(*p, *result, "Add One Value");
+    Test(p, result, "Add One Value");
     DestroyList(list);
 }
 
 void TestMultipleValue(){
     int i = 10;
     int x = 23;
-    int y = -24;
+    int l = -24;
+    void *y = &l;
     int z = 34;
-    LIST *list = Init();
+    LIST *list = Init(sizeof(int));
     Add(list, &i);
     Add(list, &x);
-    Add(list, &y);
+    Add(list, y);
     Add(list,&z);
     int *result = Get(list, 2);
-    Test(y, *result, "Add Multiple Values");
-    DestroyList(list);
+    Test(y, result, "Add Multiple Values");
+    //DestroyList(list);
 }
 
 void TestIndexOf(){
@@ -49,15 +50,16 @@ void TestIndexOf(){
     int x = 23;
     int y = -24;
     int z = 34;
-    LIST *list = Init();
+    LIST *list = Init(sizeof(int));
     Add(list, &i);
     Add(list, &x);
     Add(list, &y);
     Add(list,&z);
     int three = 3;
+    int *thr = &three;
     //[10,23,-24,34]
     int result = IndexOf(list, &y);
-    Test(three, result, "IndexOf Included int"); //Index of returns the location from which it was added,
+    Test(thr, &result, "IndexOf Included int"); //Index of returns the location from which it was added,
     //not index of it in an array.
 }
 
@@ -66,7 +68,7 @@ void TestIndexOfFail(){ //This should return -1
     int x = 23;
     int y = -24;
     int z = 34;
-    LIST *list = Init();
+    LIST *list = Init(sizeof(int));
     Add(list, &i);
     Add(list, &x);
     Add(list, &y);
@@ -74,7 +76,7 @@ void TestIndexOfFail(){ //This should return -1
     //[10,23,-24,34]
     int result = IndexOf(list, &z);
     int expected = -1;
-    Test(expected, result, "IndexOf Fail int"); //Index of returns the location from which it was added,
+    Test(&expected, &result, "IndexOf Fail int"); //Index of returns the location from which it was added,
     //not index of it in an array.
 }
 
