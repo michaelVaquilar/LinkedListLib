@@ -7,7 +7,7 @@ A Doubly Linked List (DLL) contains an extra pointer, typically called the previ
 There is currently no installation as the project is in progress.
 
 ## Usage
-Documentation for usage will be coming soon, once the project is finished.
+This program can be used to sort and organize data from both ends of the created list. For example, if the user is inputting a random set of numbers in the order of [1,6,2,7,4,9], the program will take these inputs and sort them by adding the new input its respective position [1,2,4,6,7,9].
 
 ## Contributing
 
